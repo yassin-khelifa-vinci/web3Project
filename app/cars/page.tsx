@@ -2,55 +2,62 @@
 import Image from "next/image";
 import React, { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useOutsideClick } from "../../../components/hooks/use-outside-click";
-import Navbar from "../../../components/Navbar";
-import { cars } from "../../../data/cars";
+import { useOutsideClick } from "../../components/hooks/use-outside-click";
+import Navbar from "../../components/Navbar";
+import { cars } from "../../data/cars";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SelectContent, Select, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useTranslations } from 'next-intl';
 import Footer from "@/components/Footer";
 
+export async function getStaticPaths() {
+  // Liste des locales que vous supportez
+  const locales = ['en', 'fr'];
+
+  // Créez des chemins pour toutes les combinaisons de locales
+  const paths = locales.map((locale) => ({
+      params: { locale }
+  }));
+
+  return { 
+      paths, 
+      fallback: false  // ou 'blocking' si vous voulez du ISR (Incremental Static Regeneration)
+  };
+}
+
 export default function ExpandableCardDemo() {
   const t = useTranslations('CarPage');
-
-  const [active, setActive] = useState<(typeof cars)[number] | boolean | null>(null);
+  const [active, setActive] = useState<{ title: string; src: string; description: string; ctaLink: string; ctaText: string; max_speed: number; power: number; zero_to_100: number; } | null>(null);
   const [hoveredCar, setHoveredCar] = useState<string | null>(null);
-  
-  // Nouveaux états pour les critères de recherche
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
   const [year, setYear] = useState("");
-  const [filteredCars, setFilteredCars] = useState(cars); // Liste de voitures filtrées
-
+  const [filteredCars, setFilteredCars] = useState(cars);
   const id = useId();
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef(null);
 
   useEffect(() => {
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        setActive(false);
-      }
-    }
-
-    if (active && typeof active === "object") {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
+    const onKeyDown = (event: { key: string; }) => {
+      if (event.key === "Escape") setActive(null);
+    };
+    const onBodyStyle = () => {
+      document.body.style.overflow = active ? "hidden" : "auto";
+    };
+    
     window.addEventListener("keydown", onKeyDown);
+    onBodyStyle(); // Applique le style directement sans écouter un événement
+
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [active]);
 
   useOutsideClick(ref, () => setActive(null));
 
-  // Fonction de recherche
   const handleSearch = () => {
-    const filtered = cars.filter((car) => {
+    const filtered = cars.filter(car => {
       const matchesBrand = brand ? car.brand.toLowerCase().includes(brand.toLowerCase()) : true;
       const matchesModel = model ? car.model.toLowerCase().includes(model.toLowerCase()) : true;
-      const matchesYear = year ? car.year === parseInt(year) : true;
+      const matchesYear = year ? car.year === parseInt(year, 10) : true;
       return matchesBrand && matchesModel && matchesYear;
     });
     setFilteredCars(filtered);
@@ -200,7 +207,16 @@ export default function ExpandableCardDemo() {
           <motion.div
             layoutId={`card-${car.title}-${id}`}
             key={car.title}
-            onClick={() => setActive(car)}
+            onClick={() => setActive({
+              title: car.title,
+              src: car.src,
+              description: car.description || "",
+              ctaLink: car.ctaLink,
+              ctaText: car.ctaText,
+              max_speed: Number(car.max_speed),
+              power: car.power ?? 0,
+              zero_to_100: Number(car.zero_to_100)
+            })}
             className="p-4 flex flex-col hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer relative"
             onMouseEnter={() => setHoveredCar(car.title)}
             onMouseLeave={() => setHoveredCar(null)}
@@ -243,35 +259,23 @@ export default function ExpandableCardDemo() {
   );
 }
 
-export const CloseIcon = () => {
-  return (
-    <motion.svg
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
-      exit={{
-        opacity: 0,
-        transition: {
-          duration: 0.05,
-        },
-      }}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="h-4 w-4 text-black"
-    >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M18 6l-12 12" />
-      <path d="M6 6l12 12" />
-    </motion.svg>
-  );
-};
+export const CloseIcon = () => (
+  <motion.svg
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0, transition: { duration: 0.05 } }}
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="h-4 w-4 text-black"
+  >
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </motion.svg>
+);

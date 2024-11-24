@@ -1,0 +1,6 @@
+2:I[9107,[],"ClientPageRoot"]
+3:I[2309,["425","static/chunks/425-4bf674a3e09173ab.js","816","static/chunks/816-581a5b36dc51649f.js","931","static/chunks/app/page-0342ada3be8db1e0.js"],"default",1]
+0:["Eql2jp8TNohwYedweHTHl",[[["",{"children":["__PAGE__",{}]},"$undefined","$undefined",true],["",{"children":["__PAGE__",{},[["$L1",["$","$L2",null,{"props":{"params":{},"searchParams":{}},"Component":"$3"}],null],null],null]},[[[["$","link","0",{"rel":"stylesheet","href":"/web3Project/_next/static/css/edd37a591ee92baf.css","precedence":"next","crossOrigin":"$undefined"}]],"$L4"],null],null],["$L5",null]]]]
+5:[["$","meta","0",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","1",{"charSet":"utf-8"}]]
+1:null
+4:E{"digest":"NEXT_NOT_FOUND"}

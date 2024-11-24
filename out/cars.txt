@@ -1,0 +1,8 @@
+2:I[9107,[],"ClientPageRoot"]
+3:I[8112,["310","static/chunks/0e5ce63c-26e98b182a465d73.js","425","static/chunks/425-4bf674a3e09173ab.js","648","static/chunks/648-45ade303382d472f.js","999","static/chunks/999-f577adac7a98e3f3.js","157","static/chunks/157-65888583dd401c8a.js","520","static/chunks/app/cars/page-0b84f7fb075dd713.js"],"default",1]
+4:I[4707,[],""]
+5:I[6423,[],""]
+0:["Eql2jp8TNohwYedweHTHl",[[["",{"children":["cars",{"children":["__PAGE__",{}]}]},"$undefined","$undefined",true],["",{"children":["cars",{"children":["__PAGE__",{},[["$L1",["$","$L2",null,{"props":{"params":{},"searchParams":{}},"Component":"$3"}],null],null],null]},[null,["$","$L4",null,{"parallelRouterKey":"children","segmentPath":["children","cars","children"],"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","notFoundStyles":"$undefined"}]],null]},[[[["$","link","0",{"rel":"stylesheet","href":"/web3Project/_next/static/css/edd37a591ee92baf.css","precedence":"next","crossOrigin":"$undefined"}]],"$L6"],null],null],["$L7",null]]]]
+7:[["$","meta","0",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","1",{"charSet":"utf-8"}]]
+1:null
+6:E{"digest":"NEXT_NOT_FOUND"}
